@@ -1,0 +1,2327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recovery Path | Diabetic & Addiction Freedom Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #5D5FEF;
+            --secondary: #A5A6F6;
+            --accent: #FF7E5D;
+            --light: #F8F9FF;
+            --dark: #2E2E48;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #F44336;
+            --spiritual: #9C27B0;
+            --diabetes: #2196F3;
+            --recovery: #673AB7;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(46, 46, 72, 0.1);
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--recovery);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 32px;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(93, 95, 239, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(93, 95, 239, 0.15);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .card-title i {
+            margin-right: 10px;
+        }
+        
+        .diabetes .card-title i {
+            color: var(--diabetes);
+        }
+        
+        .recovery .card-title i {
+            color: var(--recovery);
+        }
+        
+        .spiritual .card-title i {
+            color: var(--spiritual);
+        }
+        
+        .streak-display {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--dark);
+            background: rgba(165, 166, 246, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+        
+        .recovery .streak-display {
+            background: rgba(103, 58, 183, 0.1);
+        }
+        
+        .diabetes .streak-display {
+            background: rgba(33, 150, 243, 0.1);
+        }
+        
+        .habit-tracker {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .habit-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .habit-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            background-color: var(--light);
+            border: 2px solid var(--secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .habit-item:hover .habit-circle {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(93, 95, 239, 0.2);
+        }
+        
+        .habit-circle.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .recovery .habit-circle.active {
+            background-color: var(--recovery);
+            border-color: var(--recovery);
+        }
+        
+        .diabetes .habit-circle.active {
+            background-color: var(--diabetes);
+            border-color: var(--diabetes);
+        }
+        
+        .habit-name {
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            color: var(--dark);
+        }
+        
+        .habit-icon {
+            font-size: 24px;
+        }
+        
+        .progress-container {
+            margin: 25px 0;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .progress-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .progress-percent {
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: rgba(165, 166, 246, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .recovery .progress-fill {
+            background-color: var(--recovery);
+        }
+        
+        .diabetes .progress-fill {
+            background-color: var(--diabetes);
+        }
+        
+        .spiritual .progress-fill {
+            background-color: var(--spiritual);
+        }
+        
+        .chart-container {
+            height: 250px;
+            margin-top: 20px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(93, 95, 239, 0.1);
+        }
+        
+        .recovery .btn-primary {
+            background-color: var(--recovery);
+        }
+        
+        .recovery .btn-primary:hover {
+            background-color: #7E57C2;
+        }
+        
+        .recovery .btn-outline {
+            border-color: var(--recovery);
+            color: var(--recovery);
+        }
+        
+        .recovery .btn-outline:hover {
+            background-color: rgba(103, 58, 183, 0.1);
+        }
+        
+        .diabetes .btn-primary {
+            background-color: var(--diabetes);
+        }
+        
+        .diabetes .btn-primary:hover {
+            background-color: #64B5F6;
+        }
+        
+        .diabetes .btn-outline {
+            border-color: var(--diabetes);
+            color: var(--diabetes);
+        }
+        
+        .diabetes .btn-outline:hover {
+            background-color: rgba(33, 150, 243, 0.1);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 22px;
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        textarea {
+            min-height: 100px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--secondary);
+        }
+        
+        .recovery .submit-btn {
+            background-color: var(--recovery);
+        }
+        
+        .recovery .submit-btn:hover {
+            background-color: #7E57C2;
+        }
+        
+        .diabetes .submit-btn {
+            background-color: var(--diabetes);
+        }
+        
+        .diabetes .submit-btn:hover {
+            background-color: #64B5F6;
+        }
+        
+        .journal-entry {
+            background-color: var(--light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .journal-date {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 5px;
+        }
+        
+        .journal-content {
+            font-size: 14px;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .habit-tracker {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+        }
+        
+        .motivation {
+            grid-column: 1 / -1;
+            margin-top: 30px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+        
+        .motivation-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .motivation-icon {
+            font-size: 40px;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .milestones {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .milestone-tracker {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .milestone {
+            text-align: center;
+            padding: 15px;
+            background: rgba(165, 166, 246, 0.1);
+            border-radius: 10px;
+        }
+        
+        .milestone-badge {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .milestone-progress {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .milestone-progress::after {
+            content: '';
+            display: block;
+            height: 100%;
+            background: var(--recovery);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .emergency-kit {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: #000;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        
+        .ikigai {
+            grid-column: 1 / -1;
+            margin-top: 30px;
+        }
+        
+        .ikigai-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 15px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .ikigai-quadrant {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            min-height: 200px;
+            position: relative;
+        }
+        
+        .ikigai-quadrant h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        #love { border-top: 5px solid #FF5252; }
+        #excel { border-top: 5px solid #4CAF50; }
+        #need { border-top: 5px solid #2196F3; }
+        #paid { border-top: 5px solid #FFC107; }
+        
+        .ikigai-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .center-circle {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 0 10px rgba(255,255,255,0.7);
+            border: 2px dashed var(--primary);
+        }
+        
+        .ikigai-score {
+            text-align: center;
+            margin-top: 5px;
+        }
+        
+        .ikigai-score span:first-child {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .ikigai-score span:last-child {
+            font-size: 12px;
+            color: #777;
+        }
+        
+        .ikigai-content {
+            min-height: 120px;
+        }
+        
+        .ikigai-content ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        
+        .ikigai-content li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+        
+        .ikigai-habits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .ikigai-habit .habit-circle {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .ikigai-habit {
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .alignment-chart {
+            height: 250px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .ikigai-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ikigai-center {
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none;
+                margin: 20px auto;
+                pointer-events: auto;
+            }
+        }
+/* Trading Section Styles */
+.trading-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(46, 46, 72, 0.1);
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--dark);
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    border-bottom-color: var(--primary);
+    color: var(--primary);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Existing market/recovery styles from previous implementation */
+.market-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.sentiment-gauge {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.gauge-container {
+    margin-top: 15px;
+}
+
+.gauge {
+    height: 20px;
+    background: linear-gradient(to right, #f44336, #FFC107, #4CAF50);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.gauge-fill {
+    height: 100%;
+    width: 50%;
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 10px;
+}
+
+.gauge-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #666;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.summary-item {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.summary-label {
+    display: block;
+    font-size: 12px;
+    color: #666;
+}
+
+.summary-value {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.recovery-form {
+    padding: 15px;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.result-item {
+    background: rgba(165, 166, 246, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.result-label {
+    display: block;
+    font-size: 12px;
+    color: #666;
+}
+
+.result-value {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.recovery-tips {
+    background: rgba(255, 126, 93, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.link-input-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.link-input-container input {
+    flex: 1;
+}
+
+.link-hint {
+    color: #666;
+    font-size: 12px;
+    display: block;
+    margin-top: 5px;
+}
+
+.journal-link-display {
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(165, 166, 246, 0.1);
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .market-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .summary-grid,
+    .results-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                Recovery Path
+            </div>
+            <div class="user-profile">
+                <span>Stay Strong 💪</span>
+                <div class="user-avatar">Y</div>
+            </div>
+        </header>
+              <!-- Motivation Boosters -->
+        <div class="card motivation">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-fire"></i> Motivation Boosters</h2>
+            </div>
+            
+            <!-- Daily Affirmation -->
+            <div class="motivation-item" id="daily-affirmation">
+                <div class="motivation-icon">💪</div>
+                <div class="motivation-content">
+                    <h3>Today's Affirmation</h3>
+                    <p id="affirmation-text">"I am stronger than my cravings and in control of my health."</p>
+                    <button class="btn btn-small" id="new-affirmation">New Affirmation</button>
+                </div>
+            </div>
+            
+            <!-- Progress Celebrations -->
+            <div class="milestones">
+                <h3>Your Upcoming Milestones</h3>
+                <div class="milestone-tracker">
+                    <div class="milestone" data-days="7">
+                        <div class="milestone-badge">🥇</div>
+                        <span>7 Days Clean</span>
+                        <div class="milestone-progress"></div>
+                    </div>
+                    <div class="milestone" data-days="30">
+                        <div class="milestone-badge">🏆</div>
+                        <span>30 Days Clean</span>
+                        <div class="milestone-progress"></div>
+                    </div>
+                    <div class="milestone" data-days="90">
+                        <div class="milestone-badge">🚀</div>
+                        <span>90 Days Transformed</span>
+                        <div class="milestone-progress"></div>
+                    </div>
+                </div>
+            </div>
+            
+<!-- Emergency Motivation Kit -->
+<div class="emergency-kit">
+    <h3>Emergency Motivation Kit</h3>
+    <button class="btn btn-warning" id="trigger-warning">I'm Feeling Weak</button>
+    <div id="emergency-content" style="display:none;">
+        <p><strong>Remember why you started:</strong></p>
+        <p id="user-reason">"I want to be healthy for my family and regain control of my life."</p>
+        
+        <div class="quick-actions">
+            <button class="btn btn-small" id="call-accountability">Call Accountability Partner</button>
+            <button class="btn btn-small" id="quick-meditation">5-Minute Meditation</button>
+            <button class="btn btn-small" id="distract-me">Show Me Distractions</button>
+            <button class="btn btn-small" id="urge-control">Urge Control Technique</button>
+            <button class="btn btn-small" id="benefits-reminder">Benefits of Staying Clean</button>
+        </div>
+        
+        <!-- Hidden content that will be shown when buttons are clicked -->
+        <div id="urge-control-content" style="display:none; margin-top:15px; padding:15px; background:#f8f9ff; border-radius:8px;">
+            <h4>Urge Control Technique:</h4>
+            <ol>
+                <li>Recognize the urge without acting on it</li>
+                <li>Take 5 deep breaths (inhale 4 sec, hold 4 sec, exhale 6 sec)</li>
+                <li>Drink a glass of cold water</li>
+                <li>Do 10 pushups or jumping jacks</li>
+                <li>Repeat to yourself: "This too shall pass"</li>
+            </ol>
+            <p>Urges typically last only 15-30 minutes if you don't feed them.</p>
+        </div>
+        
+        <div id="benefits-content" style="display:none; margin-top:15px; padding:15px; background:#f8f9ff; border-radius:8px;">
+            <h4>Benefits of Staying Clean:</h4>
+            <ul>
+                <li>✅ Improved self-esteem and confidence</li>
+                <li>✅ More energy and mental clarity</li>
+                <li>✅ Better relationships with loved ones</li>
+                <li>✅ Increased productivity and focus</li>
+                <li>✅ Financial savings from not relapsing</li>
+                <li>✅ Freedom from guilt and shame</li>
+                <li>✅ Better physical health and vitality</li>
+                <li>✅ Career-Job-Promotions, Family responsibility</li>
+            </ul>
+        </div>
+    </div>
+</div>        
+        <div class="dashboard">
+            <!-- Diabetes Management -->
+            <div class="card diabetes">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-syringe"></i> Diabetes Care</h2>
+                    <div class="streak-display" id="diabetes-streak">0-day streak</div>
+                </div>
+                
+                <div class="habit-tracker">
+                    <div class="habit-item" data-habit="blood-sugar">
+                        <div class="habit-circle">
+                            <div class="habit-icon">🩸</div>
+                        </div>
+                        <span class="habit-name">Blood Sugar</span>
+                    </div>
+                    
+                    <div class="habit-item" data-habit="medication">
+                        <div class="habit-circle">
+                            <div class="habit-icon">💊</div>
+                        </div>
+                        <span class="habit-name">Medication</span>
+                    </div>
+                    
+                    <div class="habit-item" data-habit="diet">
+                        <div class="habit-circle">
+                            <div class="habit-icon">🥗</div>
+                        </div>
+                        <span class="habit-name">Healthy Diet</span>
+                    </div>
+                    
+                    <div class="habit-item" data-habit="exercise">
+                        <div class="habit-circle">
+                            <div class="habit-icon">🏃</div>
+                        </div>
+                        <span class="habit-name">Exercise</span>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span class="progress-title">Weekly Diabetes Control</span>
+                        <span class="progress-percent" id="diabetes-percent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill diabetes" id="diabetes-progress"></div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="diabetesChart"></canvas>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-outline" id="log-blood-sugar">Log Blood Sugar</button>
+                    <button class="btn btn-primary" id="save-diabetes">Save Today</button>
+                </div>
+            </div>
+            
+            <!-- Addiction Recovery -->
+            <div class="card recovery">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-lock"></i> Porn-Free Recovery</h2>
+                    <div class="streak-display" id="recovery-streak">0 days clean!</div>
+                </div>
+                
+                <div class="habit-tracker">
+                    <div class="habit-item" data-habit="no-porn">
+                        <div class="habit-circle">
+                            <div class="habit-icon">🚫</div>
+                        </div>
+                        <span class="habit-name">No Porn</span>
+                    </div>
+                    
+                    <div class="habit-item" data-habit="accountability">
+                        <div class="habit-circle">
+                            <div class="habit-icon">👥</div>
+                        </div>
+                        <span class="habit-name">Accountability</span>
+                    </div>
+                    
+                    <div class="habit-item" data-habit="cold-shower">
+                        <div class="habit-circle">
+                            <div class="habit-icon">🚿</div>
+                        </div>
+                        <span class="habit-name">Cold Shower</span>
+                    </div>
+                    
+                    <div class="habit-item" data-habit="blockers">
+                        <div class="habit-circle">
+                            <div class="habit-icon">🛡️</div>
+                        </div>
+                        <span class="habit-name">Used Blockers</span>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span class="progress-title">Weekly Recovery Progress</span>
+                        <span class="progress-percent" id="recovery-percent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill recovery" id="recovery-progress"></div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="recoveryChart"></canvas>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-outline" id="urge-journal">Urge Journal</button>
+                    <button class="btn btn-primary" id="save-recovery">I Stayed Clean</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Spiritual & Mental Health -->
+        <div class="grid-2">
+            <!-- Spiritual Growth -->
+            <div class="card spiritual">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-praying-hands"></i> Spiritual Strength</h2>
+                </div>
+                
+                <div class="habit-tracker">
+                    <div class="habit-item" data-habit="prayer">
+                        <div class="habit-circle">
+                            <div class="habit-icon">🙏</div>
+                        </div>
+                        <span class="habit-name">Prayer</span>
+                    </div>
+                    
+                    <div class="habit-item" data-habit="scripture">
+                        <div class="habit-circle">
+                            <div class="habit-icon">📖</div>
+                        </div>
+                        <span class="habit-name">Scripture</span>
+                    </div>
+                    
+                    <div class="habit-item" data-habit="gratitude">
+                        <div class="habit-circle">
+                            <div class="habit-icon">😊</div>
+                        </div>
+                        <span class="habit-name">Gratitude</span>
+                    </div>
+                    
+                    <div class="habit-item" data-habit="meditation">
+                        <div class="habit-circle">
+                            <div class="habit-icon">🧘</div>
+                        </div>
+                        <span class="habit-name">Meditation</span>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span class="progress-title">Weekly Spiritual Progress</span>
+                        <span class="progress-percent" id="spiritual-percent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill spiritual" id="spiritual-progress"></div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="save-spiritual">Save Progress</button>
+                </div>
+            </div>
+            
+            <!-- Urge Tracker -->
+            <div class="card recovery">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-brain"></i> Urge Tracker</h2>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="urgeChart"></canvas>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="log-urge">Log Urge</button>
+                </div>
+            </div>
+        </div>
+<!-- Combined Trade & Recovery Section -->
+<div class="card trading-section">
+    <div class="card-header">
+        <h2 class="card-title"><i class="fas fa-chart-line"></i> Trading Tools</h2>
+    </div>
+
+    <div class="trading-tabs">
+        <button class="tab-btn active" data-tab="market-sentiment">Market Sentiment</button>
+        <button class="tab-btn" data-tab="loss-recovery">Loss Recovery</button>
+    </div>
+
+    <!-- Market Sentiment Tab -->
+    <div class="tab-content active" id="market-sentiment-tab">
+        <div class="market-content">
+            <div class="sentiment-gauge">
+                <h3>Today's Market Sentiment</h3>
+                <div class="gauge-container">
+                    <div class="gauge">
+                        <div class="gauge-fill" id="sentiment-fill"></div>
+                    </div>
+                    <div class="gauge-labels">
+                        <span>Bearish</span>
+                        <span>Neutral</span>
+                        <span>Bullish</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="trade-summary">
+                <h3>Today's Option Trades</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <span class="summary-label">Calls Bought</span>
+                        <span class="summary-value" id="calls-bought">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Puts Bought</span>
+                        <span class="summary-value" id="puts-bought">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Max Pain</span>
+                        <span class="summary-value" id="max-pain">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">PCR</span>
+                        <span class="summary-value" id="pcr-ratio">-</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="market-news">
+                <h3>Key Market Drivers</h3>
+                <ul id="market-drivers">
+                    <li>Loading market data...</li>
+                </ul>
+            </div>
+        </div>
+
+
+
+
+
+
+
+          <!-- Loss Recovery Tab -->
+    <div class="tab-content" id="loss-recovery-tab">
+        <div class="recovery-form">
+            <div class="form-group">
+                <label for="loss-amount">Amount Lost ($)</label>
+                <input type="number" id="loss-amount" placeholder="Enter amount">
+            </div>
+            
+            <div class="form-group">
+                <label for="capital-remaining">Remaining Capital ($)</label>
+                <input type="number" id="capital-remaining" placeholder="Enter amount">
+            </div>
+            
+            <div class="form-group">
+                <label for="risk-percent">Risk per Trade (%)</label>
+                <input type="number" id="risk-percent" placeholder="1-5%" min="1" max="5" value="2">
+            </div>
+            
+            <div class="form-group">
+                <label for="journal-link">Attach Journal Link (Optional)</label>
+                <div class="link-input-container">
+                    <input type="url" id="journal-link" placeholder="https://yourjournal.com/entry123">
+                    <button class="btn btn-small" id="test-link">Test Link</button>
+                </div>
+                <small class="link-hint">Paste link to your trading journal entry</small>
+            </div>
+            
+            <button class="btn btn-primary" id="calculate-recovery">Calculate Recovery Plan</button>
+            
+            <div id="recovery-results" style="display:none; margin-top:20px;">
+                <h3>Your Recovery Plan</h3>
+                <div class="results-grid">
+                    <div class="result-item">
+                        <span class="result-label">Target per Trade</span>
+                        <span class="result-value" id="target-per-trade">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Trades Needed</span>
+                        <span class="result-value" id="trades-needed">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Daily Goal (2 trades)</span>
+                        <span class="result-value" id="daily-goal">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Weekly Goal</span>
+                        <span class="result-value" id="weekly-goal">-</span>
+                    </div>
+                </div>
+                
+                <div class="journal-link-display" id="journal-link-display" style="display:none;">
+                    <h4>Attached Journal:</h4>
+                    <a href="#" target="_blank" id="journal-link-anchor">View Journal Entry</a>
+                </div>
+                
+                <div class="recovery-tips">
+                    <h4>Recovery Tips:</h4>
+                    <ul>
+                        <li>Stick to your risk management plan</li>
+                        <li>Trade only high-probability setups</li>
+                        <li>Avoid revenge trading</li>
+                        <li>Take breaks between trades</li>
+                        <li>Journal every trade</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>     
+          <!-- IKIGAI Compass -->
+        <div class="card ikigai">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-compass"></i> IKIGAI Compass</h2>
+            </div>
+            
+            <div class="ikigai-grid">
+                <!-- IKIGAI Quadrants -->
+                <div class="ikigai-quadrant" id="love">
+                    <h3>What You LOVE</h3>
+                    <div class="ikigai-content" id="love-content"></div>
+                    <button class="btn btn-small edit-quadrant" data-quadrant="love">Edit</button>
+                </div>
+                
+                <div class="ikigai-quadrant" id="excel">
+                    <h3>What You're GOOD AT</h3>
+                    <div class="ikigai-content" id="excel-content"></div>
+                    <button class="btn btn-small edit-quadrant" data-quadrant="excel">Edit</button>
+                </div>
+                
+                <div class="ikigai-quadrant" id="need">
+                    <h3>What The World NEEDS</h3>
+                    <div class="ikigai-content" id="need-content"></div>
+                    <button class="btn btn-small edit-quadrant" data-quadrant="need">Edit</button>
+                </div>
+                
+                <div class="ikigai-quadrant" id="paid">
+                    <h3>What You Can Be PAID FOR</h3>
+                    <div class="ikigai-content" id="paid-content"></div>
+                    <button class="btn btn-small edit-quadrant" data-quadrant="paid">Edit</button>
+                </div>
+                
+                <!-- IKIGAI Center -->
+                <div class="ikigai-center">
+                    <div class="center-circle">
+                        <span>Your</span>
+                        <span>IKIGAI</span>
+                        <div class="ikigai-score">
+                            <span id="ikigai-alignment">0%</span>
+                            <span>Alignment</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Progress Tracking -->
+            <div class="ikigai-progress">
+                <h3>Weekly Alignment Activities</h3>
+                <div class="ikigai-habits">
+                    <div class="ikigai-habit" data-habit="purpose-action">
+                        <div class="habit-circle"><i class="fas fa-bullseye"></i></div>
+                        <span>Purpose Action</span>
+                    </div>
+                    <div class="ikigai-habit" data-habit="skill-development">
+                        <div class="habit-circle"><i class="fas fa-graduation-cap"></i></div>
+                        <span>Skill Development</span>
+                    </div>
+                    <div class="ikigai-habit" data-habit="community-impact">
+                        <div class="habit-circle"><i class="fas fa-hands-helping"></i></div>
+                        <span>Community Impact</span>
+                    </div>
+                    <div class="ikigai-habit" data-habit="value-creation">
+                        <div class="habit-circle"><i class="fas fa-lightbulb"></i></div>
+                        <span>Value Creation</span>
+                    </div>
+                </div>
+                
+                <div class="alignment-chart">
+                    <canvas id="ikigaiChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Blood Sugar Modal -->
+    <div class="modal" id="blood-sugar-modal">
+        <div class="modal-content diabetes">
+            <div class="modal-header">
+                <h3 class="modal-title">Log Blood Sugar</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="form-group">
+                <label for="blood-sugar-value">Blood Sugar (mg/dL)</label>
+                <input type="number" id="blood-sugar-value" placeholder="e.g., 120">
+            </div>
+            <div class="form-group">
+                <label for="blood-sugar-time">Time of Day</label>
+                <select id="blood-sugar-time">
+                    <option value="morning">Morning (Fasting)</option>
+                    <option value="after-breakfast">After Breakfast</option>
+                    <option value="after-lunch">After Lunch</option>
+                    <option value="after-dinner">After Dinner</option>
+                    <option value="bedtime">Bedtime</option>
+                </select>
+            </div>
+            <button class="submit-btn" id="save-blood-sugar">Save Reading</button>
+        </div>
+    </div>
+    
+    <!-- Urge Journal Modal -->
+    <div class="modal" id="urge-journal-modal">
+        <div class="modal-content recovery">
+            <div class="modal-header">
+                <h3 class="modal-title">Urge Journal</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="form-group">
+                <label for="urge-intensity">Urge Intensity (1-10)</label>
+                <input type="range" id="urge-intensity" min="1" max="10" value="5">
+                <div style="display: flex; justify-content: space-between;">
+                    <span>1 (Mild)</span>
+                    <span id="urge-intensity-value">5</span>
+                    <span>10 (Strong)</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="urge-trigger">What triggered you?</label>
+                <input type="text" id="urge-trigger" placeholder="e.g., Stress, Boredom, Late Night">
+            </div>
+            <div class="form-group">
+                <label for="urge-coping">How did you cope?</label>
+                <textarea id="urge-coping" placeholder="e.g., Called a friend, Went for a walk, Prayed..."></textarea>
+            </div>
+            <button class="submit-btn" id="save-urge-journal">Save Entry</button>
+        </div>
+    </div>
+    
+    <!-- IKIGAI Edit Modal -->
+    <div class="modal" id="ikigai-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="ikigai-modal-title">Edit IKIGAI Quadrant</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="form-group">
+                <textarea id="ikigai-text" rows="5" placeholder="Enter items (one per line)"></textarea>
+            </div>
+            <button class="submit-btn" id="save-ikigai">Save Changes</button>
+        </div>
+    </div>
+    
+    <script>
+        // App Data Structure
+        let appData = {
+            diabetes: {
+                bloodSugar: [],
+                medication: false,
+                diet: false,
+                exercise: false,
+                history: [],
+                bloodSugarChecked: false
+            },
+            recovery: {
+                noPorn: false,
+                accountability: false,
+                coldShower: false,
+                blockers: false,
+                urges: [],
+                history: []
+            },
+            spiritual: {
+                prayer: false,
+                scripture: false,
+                gratitude: false,
+                meditation: false,
+                history: []
+            },
+            streaks: {
+                noPorn: 0,
+                bloodSugar: 0,
+                medication: 0
+            }
+        };
+        
+        // DOM Elements
+        const elements = {
+            diabetesStreak: document.getElementById('diabetes-streak'),
+            recoveryStreak: document.getElementById('recovery-streak'),
+            diabetesPercent: document.getElementById('diabetes-percent'),
+            diabetesProgress: document.getElementById('diabetes-progress'),
+            recoveryPercent: document.getElementById('recovery-percent'),
+            recoveryProgress: document.getElementById('recovery-progress'),
+            spiritualPercent: document.getElementById('spiritual-percent'),
+            spiritualProgress: document.getElementById('spiritual-progress'),
+            bloodSugarModal: document.getElementById('blood-sugar-modal'),
+            urgeJournalModal: document.getElementById('urge-journal-modal'),
+            closeModalButtons: document.querySelectorAll('.close-modal'),
+            saveBloodSugarBtn: document.getElementById('save-blood-sugar'),
+            saveUrgeJournalBtn: document.getElementById('save-urge-journal'),
+            logBloodSugarBtn: document.getElementById('log-blood-sugar'),
+            urgeJournalBtn: document.getElementById('urge-journal'),
+            saveDiabetesBtn: document.getElementById('save-diabetes'),
+            saveRecoveryBtn: document.getElementById('save-recovery'),
+            saveSpiritualBtn: document.getElementById('save-spiritual'),
+            logUrgeBtn: document.getElementById('log-urge'),
+            urgeIntensity: document.getElementById('urge-intensity'),
+            urgeIntensityValue: document.getElementById('urge-intensity-value')
+        };
+        
+        // Charts
+        let diabetesChart, recoveryChart, urgeChart, ikigaiChart;
+        
+        // Initialize the app
+        function init() {
+            loadData();
+            setupEventListeners();
+            renderCharts();
+            updateUI();
+            updateStreaks();
+            motivationTools.init();
+            ikigaiTracker.init();
+            tradingTools.init();
+        }
+        
+        // Load data from localStorage
+        function loadData() {
+            const savedData = localStorage.getItem('recoveryPathData');
+            if (savedData) {
+                try {
+                    appData = JSON.parse(savedData);
+                } catch (e) {
+                    console.error("Error parsing saved data:", e);
+                    // Reset to default if corrupted
+                    localStorage.removeItem('recoveryPathData');
+                }
+            }
+        }
+        
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('recoveryPathData', JSON.stringify(appData));
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Habit tracking
+            document.querySelectorAll('.habit-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const habit = this.getAttribute('data-habit');
+                    toggleHabit(habit);
+                });
+            });
+            
+            // Modal controls
+            elements.logBloodSugarBtn.addEventListener('click', () => {
+                elements.bloodSugarModal.style.display = 'flex';
+            });
+            
+            elements.urgeJournalBtn.addEventListener('click', () => {
+                elements.urgeJournalModal.style.display = 'flex';
+            });
+            
+            elements.logUrgeBtn.addEventListener('click', () => {
+                elements.urgeJournalModal.style.display = 'flex';
+            });
+            
+            elements.closeModalButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.modal').forEach(modal => {
+                        modal.style.display = 'none';
+                    });
+                });
+            });
+            
+            // Save buttons
+            elements.saveBloodSugarBtn.addEventListener('click', saveBloodSugar);
+            elements.saveUrgeJournalBtn.addEventListener('click', saveUrgeJournal);
+            elements.saveDiabetesBtn.addEventListener('click', saveDiabetesData);
+            elements.saveRecoveryBtn.addEventListener('click', saveRecoveryData);
+            elements.saveSpiritualBtn.addEventListener('click', saveSpiritualData);
+            
+            // Urge intensity slider
+            elements.urgeIntensity.addEventListener('input', function() {
+                elements.urgeIntensityValue.textContent = this.value;
+            });
+            
+            // Click outside modal to close
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                }
+            });
+        }
+        
+        // Toggle habit status
+        function toggleHabit(habit) {
+            if (habit in appData.diabetes) {
+                appData.diabetes[habit] = !appData.diabetes[habit];
+            } else if (habit in appData.recovery) {
+                appData.recovery[habit] = !appData.recovery[habit];
+            } else if (habit in appData.spiritual) {
+                appData.spiritual[habit] = !appData.spiritual[habit];
+            }
+            
+            updateHabitUI(habit);
+            saveData();
+        }
+        
+        // Update habit UI
+        function updateHabitUI(habit) {
+            const habitItems = document.querySelectorAll(`.habit-item[data-habit="${habit}"]`);
+            
+            habitItems.forEach(item => {
+                const circle = item.querySelector('.habit-circle');
+                if ((habit in appData.diabetes && appData.diabetes[habit]) || 
+                    (habit in appData.recovery && appData.recovery[habit]) ||
+                    (habit in appData.spiritual && appData.spiritual[habit])) {
+                    circle.classList.add('active');
+                } else {
+                    circle.classList.remove('active');
+                }
+            });
+            
+            updateProgress();
+        }
+        
+        // Update progress bars and percentages
+        function updateProgress() {
+            // Diabetes progress
+            const diabetesHabits = ['medication', 'diet', 'exercise'];
+            const completedDiabetes = diabetesHabits.filter(h => appData.diabetes[h]).length;
+            const diabetesPercent = Math.round((completedDiabetes / diabetesHabits.length) * 100);
+            
+            elements.diabetesPercent.textContent = `${diabetesPercent}%`;
+            elements.diabetesProgress.style.width = `${diabetesPercent}%`;
+            
+            // Recovery progress
+            const recoveryHabits = ['noPorn', 'accountability', 'coldShower', 'blockers'];
+            const completedRecovery = recoveryHabits.filter(h => appData.recovery[h]).length;
+            const recoveryPercent = Math.round((completedRecovery / recoveryHabits.length) * 100);
+            
+            elements.recoveryPercent.textContent = `${recoveryPercent}%`;
+            elements.recoveryProgress.style.width = `${recoveryPercent}%`;
+            
+            // Spiritual progress
+            const spiritualHabits = ['prayer', 'scripture', 'gratitude', 'meditation'];
+            const completedSpiritual = spiritualHabits.filter(h => appData.spiritual[h]).length;
+            const spiritualPercent = Math.round((completedSpiritual / spiritualHabits.length) * 100);
+            
+            elements.spiritualPercent.textContent = `${spiritualPercent}%`;
+            elements.spiritualProgress.style.width = `${spiritualPercent}%`;
+        }
+        
+        // Save blood sugar reading
+        function saveBloodSugar() {
+            const value = parseInt(document.getElementById('blood-sugar-value').value);
+            const time = document.getElementById('blood-sugar-time').value;
+            
+            if (!value || value < 20 || value > 500) {
+                alert('Please enter a valid blood sugar reading (20-500 mg/dL)');
+                return;
+            }
+            
+            const today = new Date().toISOString().split('T')[0];
+            
+            appData.diabetes.bloodSugar.push({
+                date: today,
+                value: value,
+                time: time
+            });
+            
+            // Mark blood sugar as checked
+            appData.diabetes.bloodSugarChecked = true;
+            
+            saveData();
+            renderCharts();
+            elements.bloodSugarModal.style.display = 'none';
+            alert('Blood sugar logged!');
+        }
+        
+        // Save urge journal entry
+        function saveUrgeJournal() {
+            const intensity = parseInt(elements.urgeIntensity.value);
+            const trigger = document.getElementById('urge-trigger').value.trim();
+            const coping = document.getElementById('urge-coping').value.trim();
+            
+            if (!trigger || !coping) {
+                alert('Please describe your trigger and coping method');
+                return;
+            }
+            
+            const today = new Date().toISOString().split('T')[0];
+            
+            appData.recovery.urges.push({
+                date: today,
+                intensity: intensity,
+                trigger: trigger,
+                coping: coping
+            });
+            
+            saveData();
+            renderCharts();
+            elements.urgeJournalModal.style.display = 'none';
+            alert('Urge journal saved! Stay strong! 💪');
+        }
+        
+        // Save diabetes data
+        function saveDiabetesData() {
+            const today = new Date().toISOString().split('T')[0];
+            
+            const diabetesData = {
+                date: today,
+                medication: appData.diabetes.medication,
+                diet: appData.diabetes.diet,
+                exercise: appData.diabetes.exercise,
+                bloodSugarChecked: appData.diabetes.bloodSugarChecked
+            };
+            
+            // Check if we already have data for today
+            const existingIndex = appData.diabetes.history.findIndex(entry => entry.date === today);
+            
+            if (existingIndex >= 0) {
+                appData.diabetes.history[existingIndex] = diabetesData;
+            } else {
+                appData.diabetes.history.push(diabetesData);
+            }
+            
+            // Update streaks
+            updateStreaks();
+            
+            saveData();
+            renderCharts();
+            alert('Diabetes management saved!');
+        }
+        
+        // Save recovery data
+        function saveRecoveryData() {
+            const today = new Date().toISOString().split('T')[0];
+            
+            const recoveryData = {
+                date: today,
+                noPorn: appData.recovery.noPorn,
+                accountability: appData.recovery.accountability,
+                coldShower: appData.recovery.coldShower,
+                blockers: appData.recovery.blockers
+            };
+            
+            // Check if we already have data for today
+            const existingIndex = appData.recovery.history.findIndex(entry => entry.date === today);
+            
+            if (existingIndex >= 0) {
+                appData.recovery.history[existingIndex] = recoveryData;
+            } else {
+                appData.recovery.history.push(recoveryData);
+            }
+            
+            // Update streaks
+            updateStreaks();
+            
+            saveData();
+            renderCharts();
+            alert('Recovery progress saved! Keep going!');
+        }
+        
+        // Save spiritual data
+        function saveSpiritualData() {
+            const today = new Date().toISOString().split('T')[0];
+            
+            const spiritualData = {
+                date: today,
+                prayer: appData.spiritual.prayer,
+                scripture: appData.spiritual.scripture,
+                gratitude: appData.spiritual.gratitude,
+                meditation: appData.spiritual.meditation
+            };
+            
+            // Check if we already have data for today
+            const existingIndex = appData.spiritual.history.findIndex(entry => entry.date === today);
+            
+            if (existingIndex >= 0) {
+                appData.spiritual.history[existingIndex] = spiritualData;
+            } else {
+                appData.spiritual.history.push(spiritualData);
+            }
+            
+            saveData();
+            renderCharts();
+            alert('Spiritual growth saved!');
+        }
+        
+        // Update streaks
+        function updateStreaks() {
+            const today = new Date().toISOString().split('T')[0];
+            
+            // No Porn Streak
+            const recoveryToday = appData.recovery.history.find(entry => entry.date === today);
+            if (recoveryToday && recoveryToday.noPorn) {
+                appData.streaks.noPorn++;
+            } else {
+                appData.streaks.noPorn = 0;
+            }
+            
+            // Blood Sugar Streak (if logged today)
+            const hasBloodSugarToday = appData.diabetes.bloodSugar.some(entry => entry.date === today);
+            if (hasBloodSugarToday) {
+                appData.streaks.bloodSugar++;
+            } else {
+                appData.streaks.bloodSugar = 0;
+            }
+            
+            // Medication Streak
+            const diabetesToday = appData.diabetes.history.find(entry => entry.date === today);
+            if (diabetesToday && diabetesToday.medication) {
+                appData.streaks.medication++;
+            } else {
+                appData.streaks.medication = 0;
+            }
+            
+            // Update UI
+            elements.recoveryStreak.textContent = `${appData.streaks.noPorn} days clean!`;
+            elements.diabetesStreak.textContent = `${appData.streaks.bloodSugar}-day streak`;
+            
+            // Update motivation milestones
+            motivationTools.updateMilestones();
+        }
+        
+        // Render charts
+        function renderCharts() {
+            // Diabetes Chart (Last 7 days blood sugar)
+            const diabetesCtx = document.getElementById('diabetesChart').getContext('2d');
+            const last7Days = getLast7Days();
+            
+            const bloodSugarReadings = last7Days.map(date => {
+                const reading = appData.diabetes.bloodSugar.find(r => r.date === date);
+                return reading ? reading.value : null;
+            });
+            
+            if (diabetesChart) diabetesChart.destroy();
+            
+            diabetesChart = new Chart(diabetesCtx, {
+                type: 'line',
+                data: {
+                    labels: last7Days.map(date => new Date(date).toLocaleDateString('en-US', { weekday: 'short' })),
+                    datasets: [{
+                        label: 'Blood Sugar (mg/dL)',
+                        data: bloodSugarReadings,
+                        backgroundColor: 'rgba(33, 150, 243, 0.2)',
+                        borderColor: '#2196F3',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointBackgroundColor: ctx => {
+                            const value = ctx.raw;
+                            if (value === null) return '#ccc';
+                            if (value > 180) return '#F44336'; // Red for high
+                            if (value < 70) return '#FFC107'; // Yellow for low
+                            return '#4CAF50'; // Green for normal
+                        },
+                        pointRadius: ctx => {
+                            return ctx.raw === null ? 0 : 5;
+                        }
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 50,
+                            max: 300,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + ' mg/dL';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.raw ? `${context.raw} mg/dL` : 'Not measured';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Recovery Chart (Urge intensity last 7 days)
+            const recoveryCtx = document.getElementById('recoveryChart').getContext('2d');
+            const urgeIntensity = last7Days.map(date => {
+                const urges = appData.recovery.urges.filter(u => u.date === date);
+                return urges.length > 0 ? Math.max(...urges.map(u => u.intensity)) : null;
+            });
+
+            if (recoveryChart) recoveryChart.destroy();
+
+            recoveryChart = new Chart(recoveryCtx, {
+                type: 'bar',
+                data: {
+                    labels: last7Days.map(date => new Date(date).toLocaleDateString('en-US', { weekday: 'short' })),
+                    datasets: [{
+                        label: 'Urge Intensity (1-10)',
+                        data: urgeIntensity,
+                        backgroundColor: 'rgba(103, 58, 183, 0.5)',
+                        borderColor: '#673AB7',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Urge Chart (Frequency)
+            const urgeCtx = document.getElementById('urgeChart').getContext('2d');
+            const urgeFrequency = last7Days.map(date => {
+                return appData.recovery.urges.filter(u => u.date === date).length;
+            });
+
+            if (urgeChart) urgeChart.destroy();
+
+            urgeChart = new Chart(urgeCtx, {
+                type: 'line',
+                data: {
+                    labels: last7Days.map(date => new Date(date).toLocaleDateString('en-US', { weekday: 'short' })),
+                    datasets: [{
+                        label: 'Daily Urges',
+                        data: urgeFrequency,
+                        backgroundColor: 'rgba(156, 39, 176, 0.2)',
+                        borderColor: '#9C27B0',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Helper function to get last 7 days dates
+        function getLast7Days() {
+            const dates = [];
+            const today = new Date();
+            
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                dates.push(date.toISOString().split('T')[0]);
+            }
+            
+            return dates;
+        }
+
+        // Update all UI elements
+        function updateUI() {
+            // Habit toggles
+            Object.keys(appData.diabetes).forEach(habit => {
+                if (habit !== 'bloodSugar' && habit !== 'history' && habit !== 'bloodSugarChecked') {
+                    updateHabitUI(habit);
+                }
+            });
+            
+            Object.keys(appData.recovery).forEach(habit => {
+                if (habit !== 'urges' && habit !== 'history') {
+                    updateHabitUI(habit);
+                }
+            });
+            
+            Object.keys(appData.spiritual).forEach(habit => {
+                if (habit !== 'history') {
+                    updateHabitUI(habit);
+                }
+            });
+            
+            updateProgress();
+            updateStreaks();
+        }
+
+        // Motivation Tools
+        const motivationTools = {
+            affirmations: [
+                "I choose health over temporary pleasure.",
+                "Every day clean is a victory worth celebrating.",
+                "I am rebuilding myself stronger than before.",
+                "My willpower grows stronger with each challenge.",
+                "I respect my body and honor my commitments.",
+                "This struggle is shaping me into a better person.",
+                "I have the power to change my story."
+            ],
+            
+            distractions: [
+                "Go for a 10-minute walk outside",
+                "Do 20 pushups right now",
+                "Call a supportive friend",
+                "Take a cold shower",
+                "Write down 3 things you're grateful for",
+                "Read an inspiring book for 15 minutes",
+                "Practice deep breathing for 5 minutes"
+            ],
+            
+            init: function() {
+                // Set up event listeners
+                document.getElementById('new-affirmation').addEventListener('click', () => this.showRandomAffirmation());
+                document.getElementById('trigger-warning').addEventListener('click', () => this.showEmergencyKit());
+                document.getElementById('distract-me').addEventListener('click', () => this.suggestDistraction());
+                document.getElementById('urge-control').addEventListener('click', () => this.showUrgeControl());
+                document.getElementById('benefits-reminder').addEventListener('click', () => this.showBenefits());
+                
+                // Load user's personal reason
+                const savedReason = localStorage.getItem('recoveryReason');
+                if (savedReason) {
+                    document.getElementById('user-reason').textContent = savedReason;
+                } else {
+                    this.promptForReason();
+                }
+                
+                // Update milestone progress
+                this.updateMilestones();
+            },
+            
+            showRandomAffirmation: function() {
+                const randomIndex = Math.floor(Math.random() * this.affirmations.length);
+                document.getElementById('affirmation-text').textContent = `"${this.affirmations[randomIndex]}"`;
+            },
+            
+            showEmergencyKit: function() {
+                const kit = document.getElementById('emergency-content');
+                kit.style.display = kit.style.display === 'none' ? 'block' : 'none';
+            },
+            
+            suggestDistraction: function() {
+                const randomIndex = Math.floor(Math.random() * this.distractions.length);
+                alert(`Try this: ${this.distractions[randomIndex]}`);
+            },
+            
+            showUrgeControl: function() {
+                const content = document.getElementById('urge-control-content');
+                content.style.display = content.style.display === 'none' ? 'block' : 'none';
+            },
+            
+            showBenefits: function() {
+                const content = document.getElementById('benefits-content');
+                content.style.display = content.style.display === 'none' ? 'block' : 'none';
+            },
+            
+            promptForReason: function() {
+                const reason = prompt("What's your main reason for wanting to overcome these challenges?\n(This will show when you need motivation)");
+                if (reason) {
+                    localStorage.setItem('recoveryReason', reason);
+                    document.getElementById('user-reason').textContent = reason;
+                }
+            },
+            
+            updateMilestones: function() {
+                const currentStreak = appData.streaks.noPorn;
+                document.querySelectorAll('.milestone').forEach(milestone => {
+                    const daysRequired = parseInt(milestone.dataset.days);
+                    const progress = Math.min((currentStreak / daysRequired) * 100, 100);
+                    milestone.querySelector('.milestone-progress').style.width = `${progress}%`;
+                    
+                    if (currentStreak >= daysRequired) {
+                        milestone.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
+                        milestone.querySelector('.milestone-badge').style.transform = 'scale(1.1)';
+                    }
+                });
+            }
+        };
+
+        // IKIGAI Tracker
+        const ikigaiTracker = {
+            quadrants: {
+                love: ["Helping others", "Creative expression", "Learning new things"],
+                excel: ["Problem solving", "Listening", "Teaching"],
+                need: ["Mental health support", "Authentic connection", "Practical wisdom"],
+                paid: ["Coaching", "Writing", "Public speaking"]
+            },
+            
+            habits: {
+                'purpose-action': false,
+                'skill-development': false,
+                'community-impact': false,
+                'value-creation': false
+            },
+            
+            history: [],
+            
+            init: function() {
+                this.loadData();
+                this.renderQuadrants();
+                this.setupEventListeners();
+                this.calculateAlignment();
+            },
+            
+            loadData: function() {
+                const savedData = localStorage.getItem('ikigaiData');
+                if (savedData) {
+                    try {
+                        const data = JSON.parse(savedData);
+                        this.quadrants = data.quadrants || this.quadrants;
+                        this.habits = data.habits || this.habits;
+                        this.history = data.history || [];
+                    } catch (e) {
+                        console.error("Error parsing IKIGAI data:", e);
+                    }
+                }
+            },
+            
+            saveData: function() {
+                localStorage.setItem('ikigaiData', JSON.stringify({
+                    quadrants: this.quadrants,
+                    habits: this.habits,
+                    history: this.history
+                }));
+            },
+            
+            renderQuadrants: function() {
+                for (const quadrant in this.quadrants) {
+                    const contentEl = document.getElementById(`${quadrant}-content`);
+                    if (contentEl) {
+                        contentEl.innerHTML = `
+                            <ul>
+                                ${this.quadrants[quadrant].map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        `;
+                    }
+                }
+                
+                // Update habit toggles
+                for (const habit in this.habits) {
+                    const habitEl = document.querySelector(`.ikigai-habit[data-habit="${habit}"] .habit-circle`);
+                    if (habitEl) {
+                        if (this.habits[habit]) {
+                            habitEl.classList.add('active');
+                        } else {
+                            habitEl.classList.remove('active');
+                        }
+                    }
+                }
+            },
+            
+            setupEventListeners: function() {
+                // Edit quadrants
+                document.querySelectorAll('.edit-quadrant').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const quadrant = btn.dataset.quadrant;
+                        document.getElementById('ikigai-modal-title').textContent = `Edit ${btn.parentElement.querySelector('h3').textContent}`;
+                        document.getElementById('ikigai-text').value = this.quadrants[quadrant].join('\n');
+                        document.getElementById('ikigai-modal').style.display = 'flex';
+                        document.getElementById('ikigai-text').dataset.quadrant = quadrant;
+                    });
+                });
+                
+                // Save quadrant
+                document.getElementById('save-ikigai').addEventListener('click', () => {
+                    const quadrant = document.getElementById('ikigai-text').dataset.quadrant;
+                    const text = document.getElementById('ikigai-text').value;
+                    this.quadrants[quadrant] = text.split('\n').filter(item => item.trim() !== '');
+                    this.saveData();
+                    this.renderQuadrants();
+                    this.calculateAlignment();
+                    document.getElementById('ikigai-modal').style.display = 'none';
+                });
+                
+                // Toggle habits
+                document.querySelectorAll('.ikigai-habit').forEach(habitEl => {
+                    habitEl.addEventListener('click', () => {
+                        const habit = habitEl.dataset.habit;
+                        this.habits[habit] = !this.habits[habit];
+                        this.saveData();
+                        this.renderQuadrants();
+                        this.calculateAlignment();
+                    });
+                });
+            },
+            
+            calculateAlignment: function() {
+                // Simple calculation: % of habits completed
+                const totalHabits = Object.keys(this.habits).length;
+                const completedHabits = Object.values(this.habits).filter(Boolean).length;
+                const alignmentScore = Math.round((completedHabits / totalHabits) * 100);
+                
+                document.getElementById('ikigai-alignment').textContent = `${alignmentScore}%`;
+                
+                // Add to history (once per day)
+                const today = new Date().toISOString().split('T')[0];
+                if (!this.history.some(entry => entry.date === today)) {
+                    this.history.push({
+
+
+
+                        date: today,
+                        score: alignmentScore
+                    });
+                    
+                    // Keep only last 30 entries
+                    if (this.history.length > 30) {
+                        this.history = this.history.slice(-30);
+                    }
+                    
+                    this.saveData();
+                    this.renderChart();
+                }
+            },
+            
+            renderChart: function() {
+                const ctx = document.getElementById('ikigaiChart').getContext('2d');
+                const last7Days = getLast7Days();
+                
+                const alignmentData = last7Days.map(date => {
+                    const entry = this.history.find(e => e.date === date);
+                    return entry ? entry.score : null;
+                });
+                
+                if (window.ikigaiChart) window.ikigaiChart.destroy();
+                
+                window.ikigaiChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: last7Days.map(date => new Date(date).toLocaleDateString('en-US', { weekday: 'short' })),
+                        datasets: [{
+                            label: 'IKIGAI Alignment',
+                            data: alignmentData,
+                            backgroundColor: 'rgba(93, 95, 239, 0.1)',
+                            borderColor: 'var(--primary)',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+        };
+
+        // Trading Tools
+        const tradingTools = {
+            init: function() {
+                // Tab switching
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        // Remove active class from all tabs/buttons
+                        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                        
+                        // Add active class to clicked tab
+                        this.classList.add('active');
+                        const tabId = this.getAttribute('data-tab') + '-tab';
+                        document.getElementById(tabId).classList.add('active');
+                    });
+                });
+
+                // Market data
+                this.updateMarketData();
+                setInterval(() => this.updateMarketData(), 60000);
+
+                // Loss recovery calculator
+                document.getElementById('calculate-recovery').addEventListener('click', () => this.calculateRecovery());
+                document.getElementById('test-link').addEventListener('click', () => this.testJournalLink());
+            },
+
+            updateMarketData: function() {
+                const sentiment = 65; // 0-100 (bullish)
+                const calls = Math.floor(Math.random() * 1000) + 500;
+                const puts = Math.floor(Math.random() * 800) + 300;
+                const pcr = (puts/calls).toFixed(2);
+                const maxPain = Math.floor(Math.random() * 100) + 50;
+                
+                document.getElementById('sentiment-fill').style.width = `${sentiment}%`;
+                document.getElementById('calls-bought').textContent = calls.toLocaleString();
+                document.getElementById('puts-bought').textContent = puts.toLocaleString();
+                document.getElementById('pcr-ratio').textContent = pcr;
+                document.getElementById('max-pain').textContent = maxPain;
+                
+                const drivers = [
+                    "FED interest rate decision upcoming",
+                    "Tech sector showing strength",
+                    "Oil prices volatile amid supply concerns",
+                    "CPI data better than expected"
+                ];
+                
+                document.getElementById('market-drivers').innerHTML = drivers.map(d => `<li>${d}</li>`).join('');
+            },
+
+            calculateRecovery: function() {
+                const lossAmount = parseFloat(document.getElementById('loss-amount').value);
+                const capitalRemaining = parseFloat(document.getElementById('capital-remaining').value);
+                const riskPercent = parseFloat(document.getElementById('risk-percent').value);
+                
+                if (!lossAmount || !capitalRemaining || !riskPercent) {
+                    alert('Please fill all required fields');
+                    return;
+                }
+                
+                const riskPerTrade = capitalRemaining * (riskPercent/100);
+                const targetPerTrade = riskPerTrade * 1.5;
+                const tradesNeeded = Math.ceil(lossAmount / targetPerTrade);
+                const dailyGoal = targetPerTrade * 2;
+                const weeklyGoal = dailyGoal * 5;
+                
+                document.getElementById('target-per-trade').textContent = `$${targetPerTrade.toFixed(2)}`;
+                document.getElementById('trades-needed').textContent = tradesNeeded;
+                document.getElementById('daily-goal').textContent = `$${dailyGoal.toFixed(2)}`;
+                document.getElementById('weekly-goal').textContent = `$${weeklyGoal.toFixed(2)}`;
+                document.getElementById('recovery-results').style.display = 'block';
+            },
+
+            testJournalLink: function() {
+                const link = document.getElementById('journal-link').value;
+                if (!link) return;
+                
+                try {
+                    new URL(link);
+                    document.getElementById('journal-link-anchor').href = link;
+                    document.getElementById('journal-link-display').style.display = 'block';
+                    alert('Link validated successfully!');
+                } catch (e) {
+                    alert('Please enter a valid URL (e.g., https://example.com)');
+                }
+            }
+        };
+
+        // Initialize the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            init();
+        });
+    </script>
+</body>
+</html>
